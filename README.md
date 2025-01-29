@@ -1,9 +1,8 @@
 
 # Ezra: Easy Randomness
 
-Ezra is a minimal and lightweight C library for 
-pseudo-random number generation with no third-party
-dependencies.
+Ezra is a simple C library to generate uniformally-distributed 
+pseudo-random numbers with no third party dependencies.
 
 ### Understand the API
 The API is simple, and revolves around the 
