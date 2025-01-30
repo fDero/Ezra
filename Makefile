@@ -11,12 +11,18 @@ else
     RM = rm -f
 endif
 
-all: mt19937_full_example.$(EXT) mt19937_small_example.$(EXT)
+all: mt19937_full_example.$(EXT) mt19937_small_example.$(EXT) chacha20_small_example.$(EXT) chacha20_full_example.$(EXT)
 
 mt19937_full_example.$(EXT): examples/mt19937_full_example.c src/random.c src/mt19937.c
 	gcc -o $@ $(CFLAGS) $(INCLUDES) $^
 
 mt19937_small_example.$(EXT): examples/mt19937_small_example.c src/random.c src/mt19937.c
+	gcc -o $@ $(CFLAGS) $(INCLUDES) $^
+
+chacha20_small_example.$(EXT): examples/chacha20_small_example.c src/random.c src/chacha20.c
+	gcc -o $@ $(CFLAGS) $(INCLUDES) $^
+
+chacha20_full_example.$(EXT): examples/chacha20_full_example.c src/random.c src/chacha20.c
 	gcc -o $@ $(CFLAGS) $(INCLUDES) $^
 
 .PHONY: clean
