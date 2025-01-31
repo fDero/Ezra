@@ -1,4 +1,7 @@
 
+#ifndef EZRA_CHACHA20_H
+#define EZRA_CHACHA20_H
+
 #include <stdint.h>
 #include "ezra/random.h"
 
@@ -21,3 +24,5 @@ void ezra_init_chacha20(
 ezra_random_number_t ezra_rand_generate_chacha20(
     ezra_chacha20_t* cc
 );
+
+#endif

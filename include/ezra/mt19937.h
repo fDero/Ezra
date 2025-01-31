@@ -1,4 +1,7 @@
 
+#ifndef EZRA_MT19937_H
+#define EZRA_MT19937_H
+
 #include <stdint.h>
 #include "ezra/random.h"
 
@@ -19,3 +22,5 @@ void ezra_init_mt19937(
 ezra_random_number_t ezra_rand_generate_mt19937(
     ezra_mt19937_t* mt
 );
+
+#endif

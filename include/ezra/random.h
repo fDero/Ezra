@@ -1,4 +1,7 @@
 
+#ifndef EZRA_RANDOM_H
+#define EZRA_RANDOM_H
+
 #include <stdint.h>
 
 typedef struct {
@@ -57,3 +60,5 @@ int64_t ezra_scale_in_int_range(
     ezra_int_range_t const * const range,
     ezra_random_number_t const * const rand_num
 );
+
+#endif
