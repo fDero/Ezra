@@ -51,7 +51,6 @@ static void ezra_chacha20_next_block(ezra_chacha20_t* cc) {
 		cc->output[i] = cc->input[i];
     }
 	for (size_t i = 0; i < EZRA_CHACHA20_ITERATIONS / 2 ; i += 2) {
-		
 		ezra_chacha_qr(cc->output, 0, 4,  8, 12);
 		ezra_chacha_qr(cc->output, 1, 5,  9, 13);
 		ezra_chacha_qr(cc->output, 2, 6, 10, 14);
