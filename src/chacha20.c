@@ -13,13 +13,13 @@ void ezra_init_chacha20(
     const uint64_t seed, 
     ezra_chacha20_t* cc
 ) {
-    cc->output_index = CHACHA20_BLOCK_SIZE;
+    cc->output_index = EZRA_CHACHA20_BLOCK_SIZE;
     cc->input[0] = CHACHA20_INIT_STATE_CELL_0;
     cc->input[1] = CHACHA20_INIT_STATE_CELL_1;
     cc->input[2] = CHACHA20_INIT_STATE_CELL_2;
     cc->input[3] = CHACHA20_INIT_STATE_CELL_3;
     uint32_t random_initial_value = seed;
-    for (size_t i = 4; i < CHACHA20_BLOCK_SIZE; i++) {
+    for (size_t i = 4; i < EZRA_CHACHA20_BLOCK_SIZE; i++) {
         random_initial_value *= SEED_ALTERATION_FACTOR;
         random_initial_value += SEED_ALTERATION_INCREMENT;
         cc->input[i] = random_initial_value;
@@ -34,7 +34,7 @@ static uint32_t ezra_chacha_rotl32(uint32_t rotate_me, const size_t amount) {
 }
 
 static void ezra_chacha_qr(
-    uint32_t seq[CHACHA20_BLOCK_SIZE], 
+    uint32_t seq[EZRA_CHACHA20_BLOCK_SIZE], 
     const size_t a, 
     const size_t b, 
     const size_t c, 
@@ -47,10 +47,10 @@ static void ezra_chacha_qr(
 }
 
 static void ezra_chacha20_next_block(ezra_chacha20_t* cc) {
-	for (size_t i = 0; i < CHACHA20_BLOCK_SIZE; ++i) {
+	for (size_t i = 0; i < EZRA_CHACHA20_BLOCK_SIZE; ++i) {
 		cc->output[i] = cc->input[i];
     }
-	for (size_t i = 0; i < CHACHA20_ITERATIONS / 2 ; i += 2) {
+	for (size_t i = 0; i < EZRA_CHACHA20_ITERATIONS / 2 ; i += 2) {
 		
 		ezra_chacha_qr(cc->output, 0, 4,  8, 12);
 		ezra_chacha_qr(cc->output, 1, 5,  9, 13);
@@ -62,7 +62,7 @@ static void ezra_chacha20_next_block(ezra_chacha20_t* cc) {
 		ezra_chacha_qr(cc->output, 2, 7,  8, 13);
 		ezra_chacha_qr(cc->output, 3, 4,  9, 14);
 	}
-	for (size_t i = 0; i < CHACHA20_BLOCK_SIZE; ++i) {
+	for (size_t i = 0; i < EZRA_CHACHA20_BLOCK_SIZE; ++i) {
 		cc->output[i] += cc->input[i];
     }
     cc->output_index = 0;
@@ -72,7 +72,7 @@ static void ezra_chacha20_next_block(ezra_chacha20_t* cc) {
 ezra_random_number_t ezra_rand_generate_chacha20(
     ezra_chacha20_t* cc
 ) {
-    if (cc->output_index >= CHACHA20_BLOCK_SIZE) {
+    if (cc->output_index >= EZRA_CHACHA20_BLOCK_SIZE) {
         ezra_chacha20_next_block(cc);
     }
     uint32_t first_partial_output = cc->output[cc->output_index++];

@@ -17,7 +17,7 @@ static uint64_t ezra_grow_seed_mt19937(const uint64_t seed) {
 
 void ezra_init_mt19937(const uint64_t seed, ezra_mt19937_t* mt) {
     mt->values[0] = ezra_grow_seed_mt19937(seed);
-    for (mt->cursor = 1; mt->cursor < mt19937_SIZE; mt->cursor++) {
+    for (mt->cursor = 1; mt->cursor < EZRA_MT19937_SIZE; mt->cursor++) {
         size_t i = mt->cursor;
         mt->values[i] = (mt->values[i-1] ^ (mt->values[i-1] >> 62));
         mt->values[i] *= 6364136223846793005ULL;
@@ -30,12 +30,12 @@ static void ezra_twist_mt19937(ezra_mt19937_t* mt) {
     uint64_t magic_numbers[2] = {0ULL, 0xB5026F5AA96619E9ULL};
     uint64_t most_significant_33_bits = 0xFFFFFFFF80000000ULL;
     uint64_t least_significant_31_bits = 0x7FFFFFFFULL;
-    uint64_t half_of_mt19937_SIZE = mt19937_SIZE / 2;
-    for (size_t i = 0; i < mt19937_SIZE; i++) {
+    uint64_t half_of_EZRA_MT19937_SIZE = EZRA_MT19937_SIZE / 2;
+    for (size_t i = 0; i < EZRA_MT19937_SIZE; i++) {
         uint64_t tmp = (mt->values[i] & most_significant_33_bits);
-        tmp |= (mt->values[(i+1) % mt19937_SIZE] & least_significant_31_bits);
-        size_t branchless_condition = i >= (mt19937_SIZE - half_of_mt19937_SIZE);
-        size_t offset = half_of_mt19937_SIZE - (mt19937_SIZE * branchless_condition);
+        tmp |= (mt->values[(i+1) % EZRA_MT19937_SIZE] & least_significant_31_bits);
+        size_t branchless_condition = i >= (EZRA_MT19937_SIZE - half_of_EZRA_MT19937_SIZE);
+        size_t offset = half_of_EZRA_MT19937_SIZE - (EZRA_MT19937_SIZE * branchless_condition);
         mt->values[i] = mt->values[i + offset];
         mt->values[i] ^= (tmp >> 1) ^ magic_numbers[tmp & 1ULL];
     }
@@ -54,7 +54,7 @@ static uint64_t ezra_temper_mt19937(const uint64_t original_value) {
 
 
 ezra_random_number_t ezra_rand_generate_mt19937(ezra_mt19937_t* mt) {
-    if (mt->cursor >= mt19937_SIZE) {
+    if (mt->cursor >= EZRA_MT19937_SIZE) {
         ezra_twist_mt19937(mt);
     }
     uint64_t selected_value = mt->values[mt->cursor++];

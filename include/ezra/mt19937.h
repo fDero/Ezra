@@ -2,10 +2,10 @@
 #include <stdint.h>
 #include "ezra/random.h"
 
-#define mt19937_SIZE 312
+#define EZRA_MT19937_SIZE 312
 
 typedef struct {
-    uint64_t values[mt19937_SIZE];
+    uint64_t values[EZRA_MT19937_SIZE];
     size_t cursor;
 } ezra_mt19937_t;
 
