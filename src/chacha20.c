@@ -47,22 +47,22 @@ static void ezra_chacha_qr(
 }
 
 static void ezra_chacha20_next_block(ezra_chacha20_t* cc) {
-	for (size_t i = 0; i < EZRA_CHACHA20_BLOCK_SIZE; ++i) {
-		cc->output[i] = cc->input[i];
+    for (size_t i = 0; i < EZRA_CHACHA20_BLOCK_SIZE; ++i) {
+        cc->output[i] = cc->input[i];
     }
-	for (size_t i = 0; i < EZRA_CHACHA20_ITERATIONS / 2 ; i += 2) {
-		ezra_chacha_qr(cc->output, 0, 4,  8, 12);
-		ezra_chacha_qr(cc->output, 1, 5,  9, 13);
-		ezra_chacha_qr(cc->output, 2, 6, 10, 14);
-		ezra_chacha_qr(cc->output, 3, 7, 11, 15);
-		
+    for (size_t i = 0; i < EZRA_CHACHA20_ITERATIONS / 2 ; i += 2) {
+        ezra_chacha_qr(cc->output, 0, 4,  8, 12);
+        ezra_chacha_qr(cc->output, 1, 5,  9, 13);
+        ezra_chacha_qr(cc->output, 2, 6, 10, 14);
+        ezra_chacha_qr(cc->output, 3, 7, 11, 15);
+    
         ezra_chacha_qr(cc->output, 0, 5, 10, 15);
-		ezra_chacha_qr(cc->output, 1, 6, 11, 12);
-		ezra_chacha_qr(cc->output, 2, 7,  8, 13);
-		ezra_chacha_qr(cc->output, 3, 4,  9, 14);
-	}
-	for (size_t i = 0; i < EZRA_CHACHA20_BLOCK_SIZE; ++i) {
-		cc->output[i] += cc->input[i];
+        ezra_chacha_qr(cc->output, 1, 6, 11, 12);
+        ezra_chacha_qr(cc->output, 2, 7,  8, 13);
+        ezra_chacha_qr(cc->output, 3, 4,  9, 14);
+    }
+    for (size_t i = 0; i < EZRA_CHACHA20_BLOCK_SIZE; ++i) {
+        cc->output[i] += cc->input[i];
     }
     cc->output_index = 0;
     cc->input[CHACHA20_COUNTER_INDEX]++;

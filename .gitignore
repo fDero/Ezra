@@ -1,5 +1,7 @@
 *.exe
 *.out
 *.elf
+*.csv
+benchmark.*
 .vscode
 .idea
